@@ -1,0 +1,39 @@
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+	<div class="navbar-header">
+		<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
+		<a class="navbar-brand" href="{% url 'home' %}">PrediosEjido</a>
+	</div>
+	<ul class="nav navbar-top-links navbar-right">
+		<li class="dropdown">
+			<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+				<i class="fa fa-user fa-fw"></i>  <i class="fa fa-caret-down"></i>
+			</a>
+			<ul class="dropdown-menu dropdown-user">
+				<li><a href="{% url 'logout_user' %}"><i class="fa fa-sign-out fa-fw"></i> Salir</a></li>
+			</ul>
+		</li>
+	</ul>
+	<div class="navbar-default sidebar" role="navigation">
+		<div class="sidebar-nav navbar-collapse">
+			<ul class="nav" id="side-menu">
+				<li><a href="{% url 'home' %}"><i class="fa fa-dashboard fa-fw"></i> Inicio</a></li>
+				<li><a href="{% url 'list_predio' %}"><i class="fa fa-building fa-fw"></i> Predios</a></li>
+				<li><a href="{% url 'list_propieta' %}"><i class="fa fa-user fa-fw"></i> Propietarios</a></li>
+				<li>
+					<a href="#"><i class="glyphicon glyphicon-list-alt fa-fw"></i> Informes<span class="fa arrow"></span></a>
+					<ul class="nav nav-second-level">
+						<li><a target="_blank" href="{% url 'pdf_all_predio' %}">Todos los predios</a></li>
+						<li><a target="_blank" href="{% url 'pdf_all_predio' 0 %}">Total avaluo catastral</a></li>
+						<li><a target="_blank" href="{% url 'pdf_all_predio' 1 %}">Total avaluo comercial</a></li>
+					</ul>
+				</li>
+				<li><a href="{% url 'upload_data_predio' %}"><i class="glyphicon glyphicon-import fa-fw"></i> Importar</a></li>
+			</ul>
+		</div>
+	</div>
+</nav>

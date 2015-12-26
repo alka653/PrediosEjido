@@ -1,0 +1,54 @@
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">{{ title }}</h4>
+		</div>
+		<form action="{% url 'sold_predio' predio_pk %}" method="POST">
+			{% csrf_token %}
+			<div class="modal-body">
+				<div class="row">
+					{% for form in forms %}
+						<div class="col-md-6">
+							<div class="form-group">
+								<label>{{ form.label }}</label>
+								{{ form }}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<input type="submit" value="Guardar" class="btn btn-success"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	$(function() {
+		$(".datepicker").datepicker({dateFormat: 'yy-mm-dd'});
+	});
+	$(function() {
+		$('.form-group').on('keydown', '.number-val', function(e){-1!==$.inArray(e.keyCode,[46,8,9,27,13,110,190])||/65|67|86|88/.test(e.keyCode)&&(!0===e.ctrlKey||!0===e.metaKey)||35<=e.keyCode&&40>=e.keyCode||(e.shiftKey||48>e.keyCode||57<e.keyCode)&&(96>e.keyCode||105<e.keyCode)&&e.preventDefault()});
+	});
+	$("form").submit(function(event){
+		event.preventDefault();
+		var formData = new FormData(this);
+		$.ajax({
+			url: $(this).attr('action'),
+			type: $(this).attr('method'),
+			dataType: "json",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data){
+				$('.'+data.response).addClass("success");
+				$('.sold-'+data.response).remove();
+				$('#Modal').modal('hide');
+			}
+		});
+	});
+</script>

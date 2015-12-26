@@ -1,0 +1,37 @@
+{% extends 'layout/base.html' %}
+
+{% block content_head %}
+	<style>
+		input[type=file]{
+			margin: 0 auto;
+			padding-bottom: 30px;
+		}
+	</style>
+{% endblock content_head %}
+
+{% block content %}
+	{% include 'elements/menu.html' %}
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">{{ title }}</h1>
+			</div>
+		</div>
+		<div class="panel panel-default">
+			<div class="panel-body">
+				{% if message %}
+					<div class="alert alert-{{ type_m }} text-center" role="alert">
+						{{ message }}
+					</div>
+				{% endif %}
+				<div class="row text-center" style="margin-top: 60px; margin-bottom: 60px;">
+					<form action="{% url 'upload_data_predio' %}" method="POST" enctype="multipart/form-data">
+						{% csrf_token %}
+						{{ form }}
+						<input type="submit" value="Importar" class="btn btn-success"/>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock content %}

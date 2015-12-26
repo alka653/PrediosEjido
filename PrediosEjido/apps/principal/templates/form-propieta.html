@@ -1,0 +1,57 @@
+<div class="modal-dialog" role="document">
+	<div class="modal-content">
+		<div class="modal-header">
+			<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">{{ title }}</h4>
+		</div>
+		<form action="{% url 'propietario' propieta_val %}" method="POST">
+			{% csrf_token %}
+			<div class="modal-body">
+				<div class="row">
+					{% for form in forms %}
+						<div class="col-md-12">
+							<div class="form-group">
+								<label>{{ form.label }}</label>
+								{{ form }}
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				<input type="submit" value="Guardar" class="btn btn-success"/>
+			</div>
+		</form>
+	</div>
+</div>
+
+<script>
+	$("form").submit(function(event){
+		event.preventDefault();
+		var formData = new FormData(this);
+		$.ajax({
+			url: $(this).attr('action'),
+			type: $(this).attr('method'),
+			dataType: "json",
+			data: formData,
+			cache: false,
+			contentType: false,
+			processData: false,
+			success: function(data){
+				$('.'+data.pk).remove();
+				$('#table-propieta tbody').append(
+					"<tr class='"+data.pk+"'>"+
+						"<td>"+data.id_propieta+"</td>"+
+						"<td>"+data.name+"</td>"+
+						"<td>"+
+							"{% if user.is_superuser %}<a href='/Propietarios/Eliminar/"+data.pk+"' class='btn btn-danger delete'>Eliminar</a>{% endif %}"+
+							"<a href='/Propietarios/Nuevo//"+data.pk+"' class='btn btn-default open-modal'>Editar</a>"+
+						"</td>"+
+					"</tr>"
+				);
+				$('#Modal').modal('hide');
+			}
+		});
+	});
+</script>

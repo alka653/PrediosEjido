@@ -1,0 +1,82 @@
+{% load humanize %}
+
+<html>
+	<head>
+		<title>{{ title }}</title>
+		<style type="text/css">
+			@page {
+				size: Letter landscape;
+				margin: 1.5cm;
+				@frame footer {
+					-pdf-frame-content: footerContent;
+					bottom: 0cm;
+					height: 1cm;
+				}
+			}
+			body {
+				text-align: center;
+				font-size: 11px;
+				font-family: 'Courier New';
+			}
+			table {
+				border-collapse: collapse;
+			}
+			td, th {
+				padding: 1px 0px;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+			<table>
+				<thead>
+					<tr>
+						<th>Código catastro</th>
+						<th style="width: 40px;">ORD</th>
+						<th style="width: 40px;">TOT</th>
+						<th>Propietario</th>
+						<th style="width: 40px;">E</th>
+						<th style="width: 40px;">D</th>
+						<th>Número documento</th>
+						<th>Dirección del predio</th>
+						<th style="width: 90px;">Hectárea</th>
+						<th style="width: 90px;">Metro<sup>2</sup></th>
+						<th>Área construida</th>
+						<th>Avalúo catastral</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for predio in predios %}
+						<tr>
+							<td>{{ predio.c_catastral }}</td>
+							<td>{{ predio.t_ord }}</td>
+							<td>{{ predio.t_tot }}</td>
+							<td>{{ predio.propieta }}</td>
+							<td>{{ predio.e }}</td>
+							<td>{{ predio.d }}</td>
+							<td>{{ predio.id_propietario }}</td>
+							<td>{{ predio.dir_predio }}</td>
+							<td>{{ predio.hectarea }}</td>
+							<td>{{ predio.met2 }}</td>
+							<td>{{ predio.area_con }}</td>
+							<td>$ {{ predio.avaluo_catastral|floatformat|intcomma }}</td>
+						</tr>
+					{% empty %}
+						<tr>
+							<td colspan="12"><h1>No hay datos</h1></td>
+						</tr>
+					{% endfor %}
+						{% if option %}
+						<tr>
+							<th colspan="11">Total</th>
+							<th>$ {{ total.avaluo_catastral_sum|floatformat|intcomma }}</th>
+						</tr>
+						{% endif %}
+				</tbody>
+			</table>
+		</div>
+		<div id="footerContent">
+			Página <pdf:pagenumber>
+		</div>
+	</body>
+</html>

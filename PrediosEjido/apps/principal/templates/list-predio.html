@@ -1,0 +1,96 @@
+{% extends 'layout/base.html' %}
+
+{% load static %}
+
+{% load humanize %}
+
+{% block content_head %}
+	<link rel="stylesheet" href="{% static 'css/dataTables.bootstrap.min.css' %}">
+	<script src="{% static 'js/jquery.dataTables.min.js' %}"></script>
+	<script src="{% static 'js/dataTables.bootstrap.min.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'css/jquery-ui.min.css' %}">
+	<script src="{% static 'js/jquery-ui.min.js' %}"></script>
+{% endblock content_head %}
+
+{% block content %}
+	{% include 'elements/menu.html' %}
+	<div id="page-wrapper">
+		<div class="row">
+			<div class="col-lg-12">
+				<h1 class="page-header">Lista de Predios 
+					<a href="{% url 'predio' %}" class="btn btn-success open-modal" data-toggle="modal" data-target="#Modal">Nuevo Predio</a>
+					<a href="{% url 'propietario' %}" class="btn btn-success open-modal" data-toggle="modal" data-target="#Modal">Nuevo Propietario</a>
+				</h1>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-lg-12">
+				<table class="table table-striped table-bordered table-hover" id="table-predio">
+					<thead>
+						<tr>
+							<th>Código Catastral</th>
+							<th>Dirección</th>
+							<th>Hectáreas</th>
+							<th>Metros <sup>2</sup></th>
+							<th>Precio Catastral</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for predio in predios %}
+						<tr class="{{ predio.pk }}{% if predio.c_recaja %} success{% endif %}">
+							<td>{{ predio.c_catastral }}</td>
+							<td>{{ predio.dir_predio }}</td>
+							<td>{{ predio.hectarea }}</td>
+							<td>{{ predio.met2 }}</td>
+							<td>$ {{ predio.avaluo_catastral|floatformat|intcomma }}</td>
+							<td class="action-{{ predio.pk }}">
+								{% if not predio.c_recaja %}
+									<a href="{% url 'sold_predio' predio.pk %}" class="btn btn-success open-modal sold-{{ predio.pk }}">Venta</a>
+								{% endif %}
+								<a href="{% url 'view_predio' predio.pk %}" class="btn btn-primary open-modal">Detalle</a>
+								{% if user.is_superuser %}
+									<a href="{% url 'delete_predio' predio.pk %}" class="btn btn-danger delete">Eliminar</a>
+								{% endif %}
+								<a href="{% url 'predio' predio.pk %}" class="btn btn-default open-modal">Editar</a>
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+	<div class="modal fade" id="Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"></div>
+{% endblock content %}
+
+{% block content_js %}
+	$(document).ready(function() {
+		$('#table-predio').DataTable({
+			responsive: true
+		});
+	});
+	$(document).on("click", ".open-modal", function(e){
+		e.preventDefault();
+		$('#Modal').load($(this).attr('href'),function(){
+			$('#Modal').modal({
+				show:true
+			});
+		});
+	});
+	$(document).on("click", ".delete", function(e){
+		e.preventDefault();
+		if(confirm("¿Desea Eliminar el Registro?")){
+			$.ajax({
+				url: $(this).attr('href'),
+				dataType: "json",
+				success: function(data){
+					alert("Registro Eliminado");
+					$('.'+data.response).remove();
+				}
+			});
+		}else{
+			alert("Acción Cancelada");
+		}
+	});
+{% endblock content_js %}
