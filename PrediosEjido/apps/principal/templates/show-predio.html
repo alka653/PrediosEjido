@@ -21,27 +21,33 @@
 						<p><strong>TOT:</strong> {{ predio.t_tot }}</p>
 						<p><strong>E:</strong> {{ predio.e }}</p>
 						<p><strong>D:</strong> {{ predio.d }}</p>
-						<p><strong>Avalúo catastral:</strong> $ {{ predio.avaluo_catastral|floatformat|intcomma }}</p>
 					</div>
 				</div>
 				<div class="col-md-12">
-					{% if predio.c_recaja %}
-						<div class="col-md-6">
-							<p><strong>Propietario Actual:</strong> {{ predio.id_propieta_fin.name }}</p>
-							<p><strong>Código recibo de caja:</strong> {{ predio.c_recaja }}</p>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							{% if predio.c_recaja %}
+								<div class="col-md-6">
+									<p><strong>Propietario Actual:</strong> {{ predio.id_propieta_fin.name }}</p>
+									<p><strong>Código recibo de caja:</strong> {{ predio.c_recaja }}</p>
+								</div>
+								<div class="col-md-6">
+									<p><strong>Fecha de recibo de caja:</strong> {{ predio.f_recaja }}</p>
+									<p><strong>Avalúo comercial:</strong> $ {{ predio.v_recaja|floatformat|intcomma }}</p>
+								</div>
+							{% else %}
+								<div class="col-md-6">
+									<p><strong>Identificación del Propietario:</strong> {{ predio.id_propietario|intcomma }}</p>
+								</div>
+								<div class="col-md-6">
+									<p><strong>Nombre del propietario:</strong> {{ predio.propieta }}</p>
+								</div>
+								<div class="col-md-12">
+									<p><strong>Avalúo catastral:</strong> $ {{ predio.avaluo_catastral|floatformat|intcomma }}</p>
+								</div>
+							{% endif %}
 						</div>
-						<div class="col-md-6">
-							<p><strong>Fecha de recibo de caja:</strong> {{ predio.f_recaja }}</p>
-							<p><strong>Valor de recibo de caja:</strong> $ {{ predio.v_recaja|floatformat|intcomma }}</p>
-						</div>
-					{% else %}
-						<div class="col-md-6">
-							<p><strong>Identificación del Propietario:</strong> {{ predio.id_propietario|intcomma }}</p>
-						</div>
-						<div class="col-md-6">
-							<p><strong>Nombre del propietario:</strong> {{ predio.propieta }}</p>
-						</div>
-					{% endif %}
+					</div>
 				</div>
 			</div>
 		</div>

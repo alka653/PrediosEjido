@@ -52,10 +52,14 @@ def sold_predio(request, predio_pk):
 	predio = Predio.objects.get(pk = predio_pk)
 	if request.method == 'POST':
 		response = {}
-		propieta = Propieta.objects.get(pk = request.POST['id_propieta_fin'])
 		predio.c_recaja = request.POST['c_recaja']
 		predio.f_recaja = request.POST['f_recaja']
 		predio.v_recaja = request.POST['v_recaja']
+		if request.POST['id_propieta'] != "" and request.POST['id_propieta_fin'] == "":
+			propieta = Propieta(id_propieta = request.POST['id_propieta'], name = request.POST['name'])
+			propieta.save()
+		else:
+			propieta = Propieta.objects.get(pk = request.POST['id_propieta_fin'])
 		predio.id_propieta_fin = propieta
 		predio.save(update_fields = ['c_recaja', 'f_recaja', 'v_recaja', 'id_propieta_fin'])
 		response['response'] = predio.pk
@@ -82,6 +86,7 @@ class PredioAllPDFView(PDFTemplateView):
 		else:
 			predios = Predio.objects.all()
 		context['predios'] = predios
+		context['cont'] = 0
 		context['total'] = predios.aggregate(avaluo_catastral_sum = Sum('avaluo_catastral'))
 		context['title'] = 'Listado de Predios y Propietarios'
 		return context

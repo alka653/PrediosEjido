@@ -1,10 +1,12 @@
 {% extends 'layout/base.html' %}
 
+{% load staticfiles %}
+
 {% block content %}
 	{% include 'elements/menu.html' %}
 	<div id="page-wrapper">
-		<div class="row">
-			<h1>Ole</h1>
+		<div class="row text-center">
+			<img src="{% static 'img/bienvenido.png' %}" style="width: 80%; height: auto; margin-top: 100px;">
 		</div>
 	</div>
 {% endblock content %}

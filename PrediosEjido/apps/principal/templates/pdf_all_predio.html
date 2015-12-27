@@ -28,6 +28,26 @@
 	</head>
 	<body>
 		<div>
+			-----------------------------------------------------------------------------------------------------------------------------------------------
+			<table>
+				<tbody>
+					<tr>
+						<td colspan="6">INSTITUTO GEOGRAFICO  "AGUSTIN CODAZZI"</td>
+					</tr>
+					<tr>
+						<td>* * *</td>
+						<td style="width: 300px" colspan="2">LISTADO DE PREDIOS Y PROPIERARIOS</td>
+						<td>ALFABETICO</td>
+						<td>FECHA DE PRODUCCION</td>
+						<td>{% now "d-M-Y" %}</td>
+					</tr>
+					<tr>
+						<td colspan="3">CATASTRO DE: 73 TOLIMA</td>
+						<td colspan="3">MUNICIPIO DE: 148 CARMEN DE APICALA</td>
+					</tr>
+				</tbody>
+			</table>
+			-----------------------------------------------------------------------------------------------------------------------------------------------
 			<table>
 				<thead>
 					<tr>
@@ -68,6 +88,11 @@
 					{% endfor %}
 						{% if option %}
 						<tr>
+							<td colspan="12">
+								-----------------------------------------------------------------------------------------------------------------------------------------------
+							</td>
+						</tr>
+						<tr>
 							<th colspan="11">Total</th>
 							<th>$ {{ total.avaluo_catastral_sum|floatformat|intcomma }}</th>
 						</tr>
@@ -76,7 +101,7 @@
 			</table>
 		</div>
 		<div id="footerContent">
-			Página <pdf:pagenumber>
+			HOJA NUMERO <pdf:pagenumber>
 		</div>
 	</body>
 </html>

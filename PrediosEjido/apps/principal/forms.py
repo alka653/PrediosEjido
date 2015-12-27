@@ -42,6 +42,8 @@ class PropietarioVentaForm(forms.Form):
 	f_recaja = forms.CharField(label = 'Fecha del Recibo de Caja', widget = forms.TextInput(attrs = {'required': True, 'class': 'form-control datepicker'}))
 	v_recaja = forms.CharField(label = 'Valor Recibo de Caja', widget = forms.TextInput(attrs = {'required': True, 'class': 'form-control number-val', 'maxlength': '9'}))
 	id_propieta_fin = forms.ModelChoiceField(label = 'Propietario', queryset = Propieta.objects.all(), widget = forms.Select(attrs = {'class': 'form-control', 'required': True}))
+	id_propieta = forms.CharField(label = 'Identificación del propietario', widget = forms.TextInput(attrs = {'class': 'form-control', 'maxlength': '15'}))
+	name = forms.CharField(label = 'Nombre Completo del propietario', widget = forms.TextInput(attrs = {'class': 'form-control', 'maxlength': '30'}))
 
 class UploadForm(forms.Form):
 	file_input = forms.FileField()
