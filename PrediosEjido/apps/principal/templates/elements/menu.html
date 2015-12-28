@@ -15,6 +15,9 @@
 			</a>
 			<ul class="dropdown-menu dropdown-user">
 				<li><a href="{% url 'logout_user' %}"><i class="fa fa-sign-out fa-fw"></i> Salir</a></li>
+				{% if user.is_superuser %}
+					<li><a href="{% url 'list_user' %}"><i class="glyphicon glyphicon-user fa-fw"></i> Usuarios</a></li>
+				{% endif %}
 			</ul>
 		</li>
 	</ul>

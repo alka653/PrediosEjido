@@ -1,9 +1,11 @@
+from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from easy_pdf.views import PDFTemplateView
 from django.contrib.auth import logout
-from django.db.models import Sum
 from django.shortcuts import render
+from django.db.models import Sum
 from .models import Predio
 from .forms import *
 import json
@@ -148,3 +150,24 @@ def list_propieta(request):
 def logout_user(request):
 	logout(request)
 	return HttpResponseRedirect('/')
+
+@user_passes_test(lambda u: u.is_superuser)
+def list_user(request):
+	users = User.objects.all()
+	return render(request, 'list-user.html', {'title': 'Listado de Usuarios', 'users': users})
+
+def user(request):
+	if request.method == 'POST':
+		response = {}
+		form = UserForm(request.POST)
+		if form.is_valid():
+			user_data = User.objects.create_user(**form.cleaned_data)
+			response['pk'] = user_data.pk
+			response['username'] = user_data.username
+			response['first_name'] = user_data.first_name
+		else:
+			response['response'] = "Ha ocurrido un error"
+		return HttpResponse(json.dumps(response), content_type = 'application/json')
+	else:
+		form = UserForm()
+	return render(request, 'form-user.html', {'title': 'Nuevo Propietario', 'forms': form})

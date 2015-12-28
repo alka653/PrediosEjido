@@ -14,4 +14,6 @@ urlpatterns = patterns('PrediosEjido.apps.principal.views',
 	url(r'^Propietarios/Nuevo/(?:/(?P<propieta_pk>\d+))?', 'propietario', name = 'propietario'),
 	url(r'^Propietarios/Eliminar/(?P<propieta_pk>\d+)/$', 'delete_propieta', name = 'delete_propieta'),
 	url(r'^Logout/$', 'logout_user', name = 'logout_user'),
+	url(r'^Usuarios/$', 'list_user', name = 'list_user'),
+	url(r'^Usuarios/Nuevo/$', 'user', name = 'user'),
 )

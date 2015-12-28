@@ -1,4 +1,5 @@
 # -*- encoding: utf-8 -*-
+from django.contrib.auth.models import User
 from django.forms import *
 from django import forms
 from .models import *
@@ -60,7 +61,6 @@ class UploadForm(forms.Form):
 			predio.save()
 		return "Importación Exitoso"
 
-
 class PropietaForm(forms.ModelForm):
 	class Meta:
 		model = Propieta
@@ -73,3 +73,19 @@ class PropietaForm(forms.ModelForm):
 			'id_propieta': 'Identificación del propietario',
 			'name': 'Nombre Completo del propietario',
 		}
+
+class UserForm(ModelForm):
+	class Meta:
+		model = User
+		fields = '__all__'
+		widgets = {
+			'password': TextInput(attrs = {'class': 'form-control', 'type': 'password', 'required': True}),
+			'username': TextInput(attrs = {'class': 'form-control', 'required': True}),
+			'first_name': TextInput(attrs = {'class': 'form-control', 'required': True}),
+		}
+		labels = {
+			'password': 'Contraseña',
+			'username': 'Username',
+			'first_name': 'Nombre del Usuario',
+		}
+		exclude = ('last_login', 'groups', 'user_permissions', 'last_name', 'email', 'date_joined', 'is_staff', 'is_active', 'is_superuser')
